@@ -1,10 +1,9 @@
 		include io16.inc
 		
 		.data
-		freq  word 1193180/600
+
 		frequ =  1193180
 		fre   dword 524,588,660,698,784,880,988,1048
-		ar1 = frequ/588
 		timer = 10000
 		.code
 start:	
@@ -15,9 +14,12 @@ labe:
 		call readc
 		cmp al,1bh
 		jz done
-	    sub al,'0'
-		;call dispuid
-		call dispcrlf
+		cmp al,'i'
+		jnz
+		mov al,8
+		jmp mus
+	        sub al,'0'
+mus:
 		call music
 		call dispcrlf
 		jmp labe
@@ -35,18 +37,14 @@ music 	proc
 		mov eax,frequ
 		div ecx
 		mov eax,ecx
-		call dispuid
-		call dispcrlf
+		
 		push eax
 		mov eax,ar1
-		call dispuid
-		call dispcrlf
+		
 		pop eax
-		call dispuid
-		call dispcrlf
+		
 		call speaker
 		call speakon
-		;call readc
 		call delay
 		call speakoff
 	   pop edx
